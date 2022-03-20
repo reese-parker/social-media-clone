@@ -22,31 +22,6 @@ export default function Feed() {
       <Grid sx={styles.PostContainer} item xs={12}>
         <Post />
       </Grid>
-      <Grid sx={styles.PostContainer} item xs={12}>
-        <Post />
-      </Grid>
-      <Grid sx={styles.PostContainer} item xs={12}>
-        <Post />
-      </Grid>
-      <Grid sx={styles.PostContainer} item xs={12}>
-        <Post />
-      </Grid>
-      <Grid sx={styles.PostContainer} item xs={12}>
-        <Post />
-      </Grid>
-      <Grid sx={styles.PostContainer} item xs={12}>
-        <Post />
-      </Grid>
-      <Grid sx={styles.PostContainer} item xs={12}>
-        <Post />
-      </Grid>
-      <Grid sx={styles.PostContainer} item xs={12}>
-        <Post />
-      </Grid>
-      <Grid sx={styles.PostContainer} item xs={12}>
-        <Post />
-      </Grid>
-   
     </Grid>
   );
 }
