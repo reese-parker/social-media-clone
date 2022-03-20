@@ -1,33 +1,40 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import React from "react";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+
+const styles = {
+  AppBar: {
+    position: "sticky",
+  },
+  IconButton: { mr: 2 },
+  Title: { flexGrow: 1 },
+};
 
 export default function Navbar(props) {
+  const { handleOpenDrawer } = props;
+  
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={props.handleOpenDrawer}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            social media clone
-          </Typography>
-          <Button color="inherit">Sign In</Button>
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <AppBar sx={styles.AppBar}>
+      <Toolbar>
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={styles.IconButton}
+          onClick={handleOpenDrawer}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" component="div" sx={styles.Title}>
+          social media clone
+        </Typography>
+        <Button color="inherit">Sign In</Button>
+      </Toolbar>
+    </AppBar>
   );
 }
