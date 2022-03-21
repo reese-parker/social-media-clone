@@ -5,8 +5,12 @@ import Toolbar from "@mui/material/Toolbar";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 
+import NewPostForm from "./NewPostForm";
+
+import useToggleState from "./hooks/useToggleState";
+
 const styles = {
-  AppBar: {top: "auto", bottom: 0, height: "16px" },
+  AppBar: { position: "fixed", top: "auto", bottom: 0, height: "16px" },
   Fab: {
     position: "absolute",
     zIndex: 1,
@@ -18,12 +22,21 @@ const styles = {
 };
 
 export default function Footer() {
+  const [isNewPostFormOpen, toggleNewPostForm] = useToggleState(false);
+
   return (
-    <AppBar position="fixed" color="primary" sx={styles.AppBar}>
+    <AppBar color="primary" sx={styles.AppBar}>
       <Toolbar>
-        <Fab sx={styles.Fab} size="medium" color="secondary" aria-label="add">
+        <Fab
+          onClick={toggleNewPostForm}
+          sx={styles.Fab}
+          size="small"
+          color="secondary"
+          aria-label="add"
+        >
           <AddIcon />
         </Fab>
+        <NewPostForm open={isNewPostFormOpen} handleClose={toggleNewPostForm} />
       </Toolbar>
     </AppBar>
   );

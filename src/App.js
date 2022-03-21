@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import Drawer from "@mui/material/Drawer";
 
 import Navbar from "./Navbar";
+import Feed from "./Feed";
+import Footer from "./Footer"
 import Menu from "./Menu"
+
 import useToggleState from "./hooks/useToggleState";
 
 function App() {
@@ -14,6 +17,9 @@ function App() {
   return (
     <div className="App">
       <Navbar handleOpenDrawer={toggleDrawer} />
+      <Feed />
+      <Footer />
+
       <Drawer
         anchor={"left"}
         open={isDrawerOpen}

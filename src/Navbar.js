@@ -11,12 +11,12 @@ const styles = {
     position: "sticky",
   },
   IconButton: { mr: 2 },
-  Title: { flexGrow: 1 },
+  Title: { flexGrow: 1, fontWeight: 700 },
 };
 
 export default function Navbar(props) {
   const { handleOpenDrawer } = props;
-  
+
   return (
     <AppBar sx={styles.AppBar}>
       <Toolbar>
@@ -30,7 +30,7 @@ export default function Navbar(props) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" component="div" sx={styles.Title}>
+        <Typography component="div" sx={styles.Title}>
           social media clone
         </Typography>
         <Button color="inherit">Sign In</Button>
