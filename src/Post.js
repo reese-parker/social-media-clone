@@ -1,20 +1,19 @@
 import React, { useContext } from "react";
-
+import { doc, deleteDoc } from "firebase/firestore";
+import { db } from "./firebase";
 import dayjs from "dayjs";
-
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
-
+import EditPostForm from "./EditPostForm";
 import useToggleState from "./hooks/useToggleState";
 import { PostsContext, PostsDispatchContext } from "./contexts/PostsContext";
 import { ActiveUserContext } from "./contexts/ActiveUserContext";
-import EditPostForm from "./EditPostForm";
 
 const styles = {
   GridContainer: {
@@ -25,7 +24,7 @@ const styles = {
     justifyContent: "center",
     marginTop: "10px",
   },
-  username: {
+  displayName: {
     fontWeight: 700,
   },
   postText: {
@@ -44,17 +43,16 @@ const styles = {
 };
 
 export default function Post(props) {
-  const { id, username, postText, postDate } = props;
-
-  const [editMode, toggleEditMode] = useToggleState(false);
-
+  const { id, displayName, uid, postText, postDate } = props;
   const posts = useContext(PostsContext);
   const setPosts = useContext(PostsDispatchContext);
   const activeUser = useContext(ActiveUserContext);
+  const [editMode, toggleEditMode] = useToggleState(false);
 
   const deletePost = () => {
     const updatedPosts = posts.filter((post) => post.id !== id);
     setPosts(updatedPosts);
+    deleteDoc(doc(db, "posts", id));
   };
 
   return (
@@ -71,8 +69,10 @@ export default function Post(props) {
           spacing={1}
           wrap="nowrap"
         >
-          <Grid item xs={2} sx={styles.usernameContainer}>
-            <Typography sx={styles.username}>{username}</Typography>
+          <Grid item xs={2} sx={styles.displayNameContainer}>
+            <Typography sx={styles.displayName}>
+              {displayName === null ? "deleted user" : displayName}
+            </Typography>
           </Grid>
           <Grid item xs={9} sx={styles.postTextContainer}>
             <Typography sx={styles.postText}>{postText}</Typography>
@@ -81,7 +81,8 @@ export default function Post(props) {
             <Typography sx={styles.postDate}>
               {dayjs(postDate).format("YYYY-MM-DD")}
             </Typography>
-            {activeUser.username === username && (
+
+            {activeUser !== null && activeUser.uid === uid && (
               <Box>
                 <IconButton onClick={toggleEditMode}>
                   <EditOutlinedIcon fontSize="small" />
@@ -99,9 +100,10 @@ export default function Post(props) {
         open={editMode}
         handleClose={toggleEditMode}
         id={id}
-        username={username}
+        displayName={displayName}
         postText={postText}
         postDate={postDate}
+        uid={uid}
       />
     </Paper>
   );

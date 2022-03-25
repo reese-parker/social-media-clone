@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { ActiveUserContext } from "./contexts/ActiveUserContext";
 
 const styles = {
   AppBar: {
@@ -16,6 +19,7 @@ const styles = {
 
 export default function Navbar(props) {
   const { handleOpenDrawer } = props;
+  const activeUser = useContext(ActiveUserContext);
 
   return (
     <AppBar sx={styles.AppBar}>
@@ -30,10 +34,17 @@ export default function Navbar(props) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography component="div" sx={styles.Title}>
-          social media clone
-        </Typography>
-        <Button color="inherit">Sign In</Button>
+        <Typography sx={styles.Title}>social media clone</Typography>
+        {activeUser === null ? (
+          <Link to="/signin">
+            <Button color="inherit">Sign In</Button>
+          </Link>
+        ) : (
+          <>
+            <AccountCircleIcon />
+            {activeUser.displayName}
+          </>
+        )}
       </Toolbar>
     </AppBar>
   );
