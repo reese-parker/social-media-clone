@@ -1,17 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 
 import Grid from "@mui/material/Grid";
 
 import Post from "./Post";
 import styles from "./styles/FeedStyles";
+import { PostsContext } from "./contexts/PostsContext";
 import useGetPosts from "./hooks/useGetPosts";
 
-export default function Feed() {
-  const { posts, getPosts } = useGetPosts();
+export default function Feed(props) {
+  const { demoMode } = props;
+
+  const { posts: dbPosts, getPosts } = useGetPosts();
+  const demoPosts = useContext(PostsContext);
 
   useEffect(() => {
     getPosts();
   }, [getPosts]);
+
+  let posts = demoMode ? demoPosts : dbPosts;
 
   return (
     <Grid
@@ -30,6 +36,7 @@ export default function Feed() {
             uid={post.uid}
             postText={post.postText}
             postDate={post.postDate}
+            demoMode={demoMode}
           />
         </Grid>
       ))}

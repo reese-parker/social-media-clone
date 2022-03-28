@@ -12,7 +12,7 @@ import useToggleState from "./hooks/useToggleState";
 import styles from "./styles/FooterStyles";
 
 export default function Footer(props) {
-  const { handleOpenSnackbar } = props;
+  const { handleOpenSnackbar, demoMode } = props;
   const activeUser = useContext(ActiveUserContext);
   const [isNewPostFormOpen, toggleNewPostForm] = useToggleState(false);
 
@@ -23,6 +23,7 @@ export default function Footer(props) {
     navigate("/feed");
     handleOpenSnackbar("post shared");
   };
+
 
   return (
     <AppBar color="primary" sx={styles.AppBar}>
@@ -41,6 +42,7 @@ export default function Footer(props) {
 
         <NewPostForm
           open={isNewPostFormOpen}
+          demoMode={demoMode}
           handleClose={handleCloseNewPostForm}
           toggleNewPostForm={toggleNewPostForm}
         />

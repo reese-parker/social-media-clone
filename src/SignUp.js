@@ -18,7 +18,7 @@ import useInputState from "./hooks/useInputState.js";
 import styles from "./styles/SignUpStyles.js";
 
 export default function SignUp(props) {
-  const { handleOpenSnackbar } = props;
+  const { handleOpenSnackbar, demoMode } = props;
   const setActiveUser = useContext(ActiveUserDispatchContext);
   const [displayNameValue, handleDisplayNameValueChange] = useInputState("");
   const [emailValue, handleEmailValueChange] = useInputState("");
@@ -115,8 +115,9 @@ export default function SignUp(props) {
               <div style={styles.demoSignInContainer}>
                 <Button
                   onClick={handleSignInAsDemo}
+                  
                   variant="contained"
-                  sx={styles.demoSignInButton}
+                  sx={{...styles.demoSignInButton, display: demoMode ? "content" : "none"}}
                 >
                   sign in with demo account
                 </Button>

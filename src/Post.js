@@ -16,19 +16,31 @@ import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined
 
 import EditPostForm from "./EditPostForm";
 import useToggleState from "./hooks/useToggleState";
+import { PostsContext, PostsDispatchContext } from "./contexts/PostsContext";
 import { ActiveUserContext } from "./contexts/ActiveUserContext";
 import styles from "./styles/PostStyles";
 import useGetPosts from "./hooks/useGetPosts";
 
 export default function Post(props) {
-  const { id, displayName, uid, postText, postDate } = props;
+  const { id, displayName, uid, postText, postDate, demoMode } = props;
   const activeUser = useContext(ActiveUserContext);
   const [editMode, toggleEditMode] = useToggleState(false);
   const { getPosts } = useGetPosts();
 
-  const deletePost = () => {
+  const demoPosts = useContext(PostsContext);
+  const setDemoPosts = useContext(PostsDispatchContext);
+
+  const deleteDbPost = () => {
     deleteDoc(doc(db, "posts", id));
     getPosts();
+  };
+  const deleteDemoPost = () => {
+    const updatedPosts = demoPosts.filter((post) => post.id !== id);
+    setDemoPosts(updatedPosts);
+  };
+
+  const deletePost = () => {
+    demoMode ? deleteDemoPost() : deleteDbPost();
   };
 
   return (
@@ -99,6 +111,7 @@ export default function Post(props) {
           postText={postText}
           postDate={postDate}
           uid={uid}
+          demoMode={demoMode}
         />
       </Paper>
     </Fade>

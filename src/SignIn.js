@@ -21,7 +21,7 @@ import useInputState from "./hooks/useInputState.js";
 import styles from "./styles/SignInStyles.js";
 
 export default function SignIn(props) {
-  const { handleOpenSnackbar } = props;
+  const { handleOpenSnackbar, demoMode } = props;
   const setActiveUser = useContext(ActiveUserDispatchContext);
   const [emailValue, handleEmailValueChange] = useInputState("");
   const [passwordValue, handlePasswordValueChange, resetPasswordValue] =
@@ -120,26 +120,27 @@ export default function SignIn(props) {
                 onClick={handleSignInAsDemo}
                 fullWidth
                 variant="contained"
-                sx={{ mt: 2, mb: 2 }}
+                sx={{ mt: 2, mb: 2, display: demoMode ? "content" : "none" }}
               >
                 sign in with demo account
               </Button>
-              <Button
-                onClick={() => navigate("/signup")}
-                fullWidth
-                variant="contained"
-                sx={{ mt: 2, mb: 2 }}
-              >
-                create a new account
-              </Button>
-              <div style={styles.resetPasswordContainer}>
+             
+              <div style={styles.secondaryButtonsContainer}>
                 <Button
                   onClick={resetPassword}
                   variant="contained"
-                  sx={styles.resetPasswordButton}
+                  sx={styles.secondaryButtons}
                 >
                   reset password
                 </Button>
+                <Button
+                onClick={() => navigate("/signup")}
+                fullWidth
+                variant="contained"
+                sx={styles.secondaryButtons}
+              >
+                create a new account
+              </Button>
               </div>
             </Box>
           </Grid>

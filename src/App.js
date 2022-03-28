@@ -20,7 +20,7 @@ function App() {
   const [isDrawerOpen, toggleDrawer] = useToggleState(false);
   const [isSnackbarOpen, toggleSnackbar] = useToggleState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [demoMode] = useToggleState(true)
+  const demoMode = false;
 
   const handleOpenSnackbar = (message) => {
     setSnackbarMessage(message);
@@ -40,23 +40,38 @@ function App() {
         //Routes for main content
       }
       <Routes>
-        <Route path="/" element={<Feed />} />
+        <Route path="/" element={<Feed demoMode={demoMode} />} />
         <Route
           path="/signin"
-          element={<SignIn handleOpenSnackbar={handleOpenSnackbar} />}
+          element={
+            <SignIn
+              demoMode={demoMode}
+              handleOpenSnackbar={handleOpenSnackbar}
+            />
+          }
         />
         <Route
           path="/signup"
-          element={<SignUp handleOpenSnackbar={handleOpenSnackbar} />}
+          element={
+            <SignUp
+              demoMode={demoMode}
+              handleOpenSnackbar={handleOpenSnackbar}
+            />
+          }
         />
         <Route
           path="/accountsettings"
-          element={<AccountSettings demoMode={demoMode} handleOpenSnackbar={handleOpenSnackbar} />}
+          element={
+            <AccountSettings
+              demoMode={demoMode}
+              handleOpenSnackbar={handleOpenSnackbar}
+            />
+          }
         />
-        <Route path="*" element={<Feed />} />
+        <Route path="*" element={<Feed demoMode={demoMode} />} />
       </Routes>
 
-      <Footer handleOpenSnackbar={handleOpenSnackbar} />
+      <Footer demoMode={demoMode} handleOpenSnackbar={handleOpenSnackbar} />
 
       {
         //Mobile Menu

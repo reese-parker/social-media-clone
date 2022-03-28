@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
@@ -9,14 +9,43 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
+import { PostsContext, PostsDispatchContext } from "./contexts/PostsContext";
 import useGetPosts from "./hooks/useGetPosts";
 import useInputState from "./hooks/useInputState";
 import styles from "./styles/EditPostFormStyles";
 
 export default function EditPostForm(props) {
-  const { open, handleClose, id, displayName, postText, postDate, uid } = props;
+  const {
+    open,
+    handleClose,
+    id,
+    displayName,
+    postText,
+    postDate,
+    uid,
+    demoMode,
+  } = props;
   const [postValue, handlePostValueChange] = useInputState(postText);
   const { getPosts } = useGetPosts();
+
+  const demoPosts = useContext(PostsContext);
+  const setDemoPosts = useContext(PostsDispatchContext);
+
+  // save post to database and update state
+  const savePost = async (updatedPost) => {
+    await updateDoc(doc(db, "posts", id), {
+      postText: updatedPost.postText,
+    });
+    getPosts();
+  };
+
+  // save post to a local array and update state
+  const demoSavePost = (updatedPost) => {
+    const updatedPosts = demoPosts.map((post) =>
+      post.id === updatedPost.id ? updatedPost : post
+    );
+    setDemoPosts(updatedPosts);
+  };
 
   const editPost = async () => {
     if (postValue === "") return;
@@ -27,10 +56,8 @@ export default function EditPostForm(props) {
       postDate: postDate,
       uid: uid,
     };
-    await updateDoc(doc(db, "posts", id), {
-      postText: updatedPost.postText,
-    });
-    getPosts();
+
+    demoMode ? demoSavePost(updatedPost) : savePost(updatedPost);
     handleClose();
   };
 
