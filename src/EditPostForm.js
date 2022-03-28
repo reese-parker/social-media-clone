@@ -1,22 +1,25 @@
-import React, { useContext } from "react";
+import React from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "./firebase";
+
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { PostsContext, PostsDispatchContext } from "./contexts/PostsContext";
+
+import useGetPosts from "./hooks/useGetPosts";
 import useInputState from "./hooks/useInputState";
+import styles from "./styles/EditPostFormStyles";
 
 export default function EditPostForm(props) {
   const { open, handleClose, id, displayName, postText, postDate, uid } = props;
-  const posts = useContext(PostsContext);
-  const setPosts = useContext(PostsDispatchContext);
   const [postValue, handlePostValueChange] = useInputState(postText);
+  const { getPosts } = useGetPosts();
 
-  const editPost = () => {
+  const editPost = async () => {
+    if (postValue === "") return;
     const updatedPost = {
       id: id,
       displayName: displayName,
@@ -24,37 +27,38 @@ export default function EditPostForm(props) {
       postDate: postDate,
       uid: uid,
     };
-    const updatedPosts = posts.map((post) =>
-      post.id === id ? updatedPost : post
-    );
-    setPosts(updatedPosts);
-    updateDoc(doc(db, "posts", id), {
+    await updateDoc(doc(db, "posts", id), {
       postText: updatedPost.postText,
     });
+    getPosts();
     handleClose();
   };
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Edit Post</DialogTitle>
-      <DialogContent>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="post"
-          label="post"
-          type="text"
-          fullWidth
-          variant="standard"
-          value={postValue}
-          onChange={handlePostValueChange}
-          required
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={editPost}>save post</Button>
-      </DialogActions>
+      <div style={styles.container}>
+        <DialogTitle>Edit Post</DialogTitle>
+        <DialogContent>
+          <TextField
+            sx={styles.TextField}
+            autoFocus
+            multiline
+            margin="dense"
+            id="post"
+            label="post"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={postValue}
+            onChange={handlePostValueChange}
+            required
+          />
+        </DialogContent>
+        <DialogActions sx={styles.buttonsContainer}>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={editPost}>save post</Button>
+        </DialogActions>
+      </div>
     </Dialog>
   );
 }

@@ -1,33 +1,17 @@
-import React, { useEffect, useContext } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "./firebase";
-import Grid from "@mui/material/Grid";
-import Post from "./Post";
-import { PostsContext, PostsDispatchContext } from "./contexts/PostsContext";
+import React, { useEffect } from "react";
 
-const styles = {
-  GridContainer: {
-    paddingTop: "10px",
-  },
-  PostContainer: {
-    width: "96%",
-  },
-};
+import Grid from "@mui/material/Grid";
+
+import Post from "./Post";
+import styles from "./styles/FeedStyles";
+import useGetPosts from "./hooks/useGetPosts";
 
 export default function Feed() {
-  const posts = useContext(PostsContext);
-  const setPosts = useContext(PostsDispatchContext);
+  const { posts, getPosts } = useGetPosts();
 
   useEffect(() => {
-    (async () => {
-      const retrievedPosts = [];
-      const querySnapshot = await getDocs(collection(db, "posts"));
-      querySnapshot.forEach((doc) => {
-        retrievedPosts.push(doc.data());
-      });
-      setPosts(retrievedPosts);
-    })();
-  }, [setPosts]);
+    getPosts();
+  }, [getPosts]);
 
   return (
     <Grid
@@ -35,7 +19,7 @@ export default function Feed() {
       direction="column"
       alignItems="center"
       wrap="nowrap"
-      spacing={1}
+      spacing={2}
       sx={styles.GridContainer}
     >
       {posts.map((post) => (
