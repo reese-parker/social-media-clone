@@ -20,6 +20,7 @@ function App() {
   const [isDrawerOpen, toggleDrawer] = useToggleState(false);
   const [isSnackbarOpen, toggleSnackbar] = useToggleState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [demoMode] = useToggleState(true)
 
   const handleOpenSnackbar = (message) => {
     setSnackbarMessage(message);
@@ -50,7 +51,7 @@ function App() {
         />
         <Route
           path="/accountsettings"
-          element={<AccountSettings handleOpenSnackbar={handleOpenSnackbar} />}
+          element={<AccountSettings demoMode={demoMode} handleOpenSnackbar={handleOpenSnackbar} />}
         />
         <Route path="*" element={<Feed />} />
       </Routes>
@@ -98,7 +99,7 @@ function App() {
       {
         //Message regarding demo version shown on page load
       }
-      <WelcomeMessage />
+      <WelcomeMessage demoMode={demoMode} />
     </div>
   );
 }

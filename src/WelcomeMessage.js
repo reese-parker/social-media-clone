@@ -6,8 +6,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 
-export default function AlertDialog() {
-  const [open, setOpen] = useState(true);
+export default function AlertDialog(props) {
+  const {demoMode} = props
+  const [open, setOpen] = useState(demoMode);
 
   const handleClose = () => {
     setOpen(false);

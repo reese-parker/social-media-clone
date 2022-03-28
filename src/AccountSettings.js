@@ -20,7 +20,7 @@ import useToggleState from "./hooks/useToggleState";
 import styles from "./styles/AccountSettingsStyles.js";
 
 export default function AccountSettings(props) {
-  const { handleOpenSnackbar } = props;
+  const { handleOpenSnackbar, demoMode } = props;
   const activeUser = useContext(ActiveUserContext);
   const setActiveUser = useContext(ActiveUserDispatchContext);
   const [confirmSignOutDialog, toggleConfirmSignOutDialog] =
@@ -35,6 +35,8 @@ export default function AccountSettings(props) {
     navigate("/signup");
     handleOpenSnackbar("account deleted");
   };
+
+  console.log(demoMode)
 
   useEffect(() => {
     activeUser === null && navigate("/signin");
@@ -65,6 +67,7 @@ export default function AccountSettings(props) {
 
           <Grid item>
             <Button
+            disabled={demoMode}
               onClick={toggleConfirmSignOutDialog}
               fullWidth
               variant="contained"
