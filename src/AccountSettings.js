@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteUser } from "firebase/auth";
 import { auth } from "./firebase.js";
@@ -28,19 +28,13 @@ export default function AccountSettings(props) {
 
   const navigate = useNavigate();
 
-  const handleDeleteUser = async () => {
-    await deleteUser(auth.currentUser);
-    setActiveUser(null);
-    toggleConfirmSignOutDialog();
+  const handleDeleteUser = () => {
     navigate("/signup");
+    setActiveUser(null);
+    deleteUser(auth.currentUser);
+    toggleConfirmSignOutDialog();
     handleOpenSnackbar("account deleted");
   };
-
-  console.log(demoMode)
-
-  useEffect(() => {
-    activeUser === null && navigate("/signin");
-  });
 
   return (
     <Fade in={true} timeout={500}>
@@ -67,7 +61,7 @@ export default function AccountSettings(props) {
 
           <Grid item>
             <Button
-            disabled={demoMode && activeUser.displayName === "Demo"}
+              disabled={demoMode && activeUser.displayName === "Demo"}
               onClick={toggleConfirmSignOutDialog}
               fullWidth
               variant="contained"
