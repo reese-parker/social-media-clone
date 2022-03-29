@@ -30,9 +30,10 @@ export default function DesktopMenu(props) {
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
+    navigate("/signin");
     await signOut(auth);
     setActiveUser(null);
-    navigate("/signin");
+    
     handleOpenSnackbar("Signed out");
   };
 

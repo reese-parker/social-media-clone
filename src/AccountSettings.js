@@ -67,7 +67,7 @@ export default function AccountSettings(props) {
 
           <Grid item>
             <Button
-            disabled={demoMode}
+            disabled={demoMode && activeUser.displayName === "Demo"}
               onClick={toggleConfirmSignOutDialog}
               fullWidth
               variant="contained"
