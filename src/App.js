@@ -20,7 +20,7 @@ function App() {
   const [isDrawerOpen, toggleDrawer] = useToggleState(false);
   const [isSnackbarOpen, toggleSnackbar] = useToggleState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const demoMode = false;
+  const demoMode = true;
 
   const handleOpenSnackbar = (message) => {
     setSnackbarMessage(message);
