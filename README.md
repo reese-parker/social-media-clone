@@ -15,7 +15,7 @@ This project is a social media clone where users can sign up for an account and 
 * React-Router v6 provides routing between the post feed and authentication pages.
 * The app features a demo mode with a provided account. When enabled, the app will load an initial snapshot of the database and keep a copy in local state. New posts are displayed during the session but are not saved to the database.
 * The website is styled using MUI V5 components. Additional custom styles are applied using CSS modules. Responsiveness is achievied through grids and media-queries.
-* Global state is managed through useContext. The app features several custom hooks for user inputs, boolean togglers and fetching from the database.
+* App state is managed through Context API. The app features several custom hooks for user inputs, boolean togglers and fetching from the database.
 * Hosting is provided through Firebase.
 
 
