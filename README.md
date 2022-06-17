@@ -5,7 +5,7 @@
 
 ## Description
 
-This project is a social media clone where users can sign up for an account and post messages.
+This project is a social media app where users can sign up for an account and post messages.
 
 ## Design
 
